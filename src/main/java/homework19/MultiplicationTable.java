@@ -6,15 +6,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MultiplicationTable {
-    static Scanner scanner = new Scanner(System.in);
+
 
     public static void main(String[] args) {
         System.out.println("Таблица умножения для целых чисел");
-        multiplicationTable();
+        getMultiplicationTableParametersFromConsole();
     }
 
     // Функция для ввода целых чисел с клавиатуры
-    public static int inputInt(String text){
+    public static int inputInt(String text) {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
                 System.out.print(text);
@@ -28,25 +29,30 @@ public class MultiplicationTable {
     }
 
     // Функция для создания таблицы умножения
-    public static void multiplicationTable() {
+    public static void getMultiplicationTableParametersFromConsole() {
         int first = inputInt("Введите первое число: ");
         int second = inputInt("Введите второе число: ");
 
         int step;
         int range = Math.abs(first - second);
 
-        do {
+        while (true) {
             step = inputInt("Введите шаг: ");
 
             if (step <= 0) {
                 System.out.println("Шаг должен быть больше 0");
-            } else if (range != 0 && step > range) {
-                System.out.println("Шаг не может быть больше диапазона чисел (" + range + ")");
+                continue;
             }
 
-        } while (step <= 0 || (range != 0 && step > range));
+            if (range != 0 && step > range) {
+                System.out.println("Шаг не может быть больше диапазона чисел (" + range + ")");
+                continue;
+            }
 
-        printTable(first, second, step);
+            break;
+        }
+
+        printMultiplicationTable(first, second, step);
     }
 
     // Функция для генерации диапазона с заданным шагом
@@ -78,18 +84,18 @@ public class MultiplicationTable {
     }
 
     // Функция для печати таблицы на консоль
-    public static void printTable(int first, int second, int step) {
+    public static void printMultiplicationTable(int first, int second, int step) {
         List<Integer> numbers = buildRange(first, second, step);
 
-        int max = 0;
+        int maxAbsMultiplication = 0;
         for (int a : numbers) {
             for (int b : numbers) {
-                max = Math.max(max, Math.abs(a * b));
+                maxAbsMultiplication = Math.max(maxAbsMultiplication, Math.abs(a * b));
             }
         }
 
         // учитываем пробелы
-        int cellWidth = getCellWidth(max) + 2;
+        int cellWidth = getCellWidth(maxAbsMultiplication) + 2;
 
         // заголовок таблицы
         System.out.printf("%" + cellWidth + "s", "");
