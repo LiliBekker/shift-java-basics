@@ -1,5 +1,7 @@
 package homework19;
 
+import homework202.MultiplicationTablePrintFile;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -7,20 +9,25 @@ import java.util.Scanner;
 
 public class MultiplicationTable {
 
-
     public static void main(String[] args) {
+        String table = getMultiplicationTableParametersFromConsole();
+
         System.out.println("Таблица умножения для целых чисел");
-        getMultiplicationTableParametersFromConsole();
+        System.out.println(table);
+
+        String fileName = "multiplication_table.txt";
+        System.out.println("Таблица умножения записана в файл: " + fileName);
+        MultiplicationTablePrintFile.writeToFile(table, fileName);
     }
 
     // Функция для ввода целых чисел с клавиатуры
     public static int inputInt(String text) {
         Scanner scanner = new Scanner(System.in);
+
         while (true) {
             try {
                 System.out.print(text);
                 return scanner.nextInt();
-
             } catch (InputMismatchException e) {
                 System.out.println("Введите целое число");
                 scanner.nextLine();
@@ -29,7 +36,8 @@ public class MultiplicationTable {
     }
 
     // Функция для создания таблицы умножения
-    public static void getMultiplicationTableParametersFromConsole() {
+    public static String getMultiplicationTableParametersFromConsole() {
+
         int first = inputInt("Введите первое число: ");
         int second = inputInt("Введите второе число: ");
 
@@ -52,14 +60,13 @@ public class MultiplicationTable {
             break;
         }
 
-        printMultiplicationTable(first, second, step);
+        return buildMultiplicationTable(first, second, step);
     }
 
     // Функция для генерации диапазона с заданным шагом
     private static List<Integer> buildRange(int first, int second, int step) {
         List<Integer> numbers = new ArrayList<>();
 
-        // учитываем порядок записи чисел (по убыванию/возрастанию, зависит от того как введены числа в консоль
         if (first <= second) {
             for (int i = first; i <= second; i += step) {
                 numbers.add(i);
@@ -70,8 +77,7 @@ public class MultiplicationTable {
             }
         }
 
-        // учитываем граничные значения
-        if (numbers.get(numbers.size() - 1) != second) {
+        if (numbers.getLast() != second) {
             numbers.add(second);
         }
 
@@ -83,36 +89,43 @@ public class MultiplicationTable {
         return String.valueOf(number).length();
     }
 
-    // Функция для печати таблицы на консоль
-    public static void printMultiplicationTable(int first, int second, int step) {
+    // Функция для построения таблицы
+    public static String buildMultiplicationTable(int first, int second, int step) {
+
         List<Integer> numbers = buildRange(first, second, step);
+        StringBuilder table = new StringBuilder();
 
         int maxAbsMultiplication = 0;
+
         for (int a : numbers) {
             for (int b : numbers) {
-                maxAbsMultiplication = Math.max(maxAbsMultiplication, Math.abs(a * b));
+                maxAbsMultiplication = Math.max(
+                        maxAbsMultiplication,
+                        Math.abs(a * b)
+                );
             }
         }
 
-        // учитываем пробелы
         int cellWidth = getCellWidth(maxAbsMultiplication) + 2;
 
-        // заголовок таблицы
-        System.out.printf("%" + cellWidth + "s", "");
-        for (int num : numbers) {
-            System.out.printf("%" + cellWidth + "d", num);
-        }
-        System.out.println();
+        table.append(String.format("%" + cellWidth + "s", ""));
 
-        // тело таблицы
+        for (int num : numbers) {
+            table.append(String.format("%" + cellWidth + "d", num));
+        }
+
+        table.append("\n");
+
         for (int row : numbers) {
-            System.out.printf("%" + cellWidth + "d", row);
+            table.append(String.format("%" + cellWidth + "d", row));
 
             for (int col : numbers) {
-                int result = row * col;
-                System.out.printf("%" + cellWidth + "d", result);
+                table.append(String.format("%" + cellWidth + "d", row * col));
             }
-            System.out.println();
+
+            table.append("\n");
         }
+
+        return table.toString();
     }
 }
