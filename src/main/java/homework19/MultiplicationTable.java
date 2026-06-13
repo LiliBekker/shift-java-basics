@@ -1,6 +1,6 @@
 package homework19;
 
-import homework202.MultiplicationTablePrintFile;
+import homework202.FileWriter;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -10,14 +10,14 @@ import java.util.Scanner;
 public class MultiplicationTable {
 
     public static void main(String[] args) {
-        String table = getMultiplicationTableParametersFromConsole();
+        String table = getParametersFromConsoleForTable();
 
         System.out.println("Таблица умножения для целых чисел");
         System.out.println(table);
 
         String fileName = "multiplication_table.txt";
-        System.out.println("Таблица умножения записана в файл: " + fileName);
-        MultiplicationTablePrintFile.writeToFile(table, fileName);
+        System.out.println("Файл для хранения данных о таблицы умножения с целыми числами: " + fileName);
+        FileWriter.writeToFile(table, fileName);
     }
 
     // Функция для ввода целых чисел с клавиатуры
@@ -36,7 +36,7 @@ public class MultiplicationTable {
     }
 
     // Функция для создания таблицы умножения
-    public static String getMultiplicationTableParametersFromConsole() {
+    public static String getParametersFromConsoleForTable() {
 
         int first = inputInt("Введите первое число: ");
         int second = inputInt("Введите второе число: ");

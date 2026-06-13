@@ -1,18 +1,17 @@
 package homework202;
 
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 
-public class MultiplicationTablePrintFile {
+public class FileWriter {
 
     public static void writeToFile(String content, String fileName) {
 
-        FileWriter fileOutputStream = null;
+        java.io.FileWriter fileOutputStream = null;
 
         try {
             // открыть файл
-            fileOutputStream = new FileWriter(fileName);
+            fileOutputStream = new java.io.FileWriter(fileName);
 
             // записать в файл
             fileOutputStream.write(content);
