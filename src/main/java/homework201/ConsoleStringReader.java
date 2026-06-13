@@ -6,9 +6,8 @@ public class ConsoleStringReader {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public String inputStringWithConsole() {
+    public String inputStringFromConsole() {
         String inputString;
-
         while (true) {
             System.out.print("Введите строку: ");
             inputString = scanner.nextLine();
@@ -18,22 +17,20 @@ public class ConsoleStringReader {
             if (validLength && validChars) {
                 break;
             }
-
             System.out.println("Введена строка с недопустимыми символами. Введите корректную строку");
         }
-
         return inputString;
     }
 
     public char inputCharWithConsole() {
         String inputChar;
         System.out.print("Введите символ: ");
-        inputChar = scanner.nextLine();
-        while (inputChar.trim().isEmpty()) {
-            System.out.println("Введенный символ не допускается для замены. Введите повторно символ:");
+        while (true) {
             inputChar = scanner.nextLine();
+            if (inputChar.length() == 1 && inputChar.charAt(0) != ' ' && inputChar.matches("[a-zA-Zа-яА-ЯёЁ.,!?;:]")) {
+                return inputChar.charAt(0);
+            }
+            System.out.println("Необходимо ввести ровно один символ, отличный от пробела.");
         }
-
-        return inputChar.charAt(0);
     }
 }

@@ -13,7 +13,7 @@ public class TextTransformerApp {
                 - знаки препинания: . , ! ? : ;
                 - пробелы (только одиночные, без подряд идущих)
                 """);
-        String original = input.inputStringWithConsole();
+        String original = input.inputStringFromConsole();
 
         char target = input.inputCharWithConsole();
 
